@@ -1,18 +1,18 @@
 return {
-  "nvim-neorg/neorg",
-  lazy = false,  -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
-  version = "*", -- Pin Neorg to the latest stable release
+  'nvim-neorg/neorg',
+  lazy = false, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
+  version = '*', -- Pin Neorg to the latest stable release
   config = function()
-    require("neorg").setup({
+    require('neorg').setup {
       load = {
-        ["core.defaults"] = {},
-        ["core.keybinds"] = {
+        ['core.defaults'] = {},
+        ['core.keybinds'] = {
           config = {
             default_keybinds = false,
           },
         },
-        ["core.concealer"] = {},
+        ['core.concealer'] = {},
       },
-    })
+    }
   end,
 }
