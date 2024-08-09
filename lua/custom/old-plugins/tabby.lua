@@ -34,7 +34,7 @@ return {
       win = 'TabLine',
       tail = 'StatusLineNC',
     }
-    require('tabby').setup({
+    require('tabby').setup {
       line = function(line)
         return {
           {
@@ -53,7 +53,7 @@ return {
               -- tab.number(),
               -- { ' ' },
               tab.name(),
-              tab.close_btn(''),
+              tab.close_btn '',
               line.sep('', hl, theme.fill),
               hl = hl,
               margin = ' ',
@@ -83,6 +83,6 @@ return {
           hl = theme.fill,
         }
       end,
-    })
+    }
   end,
 }

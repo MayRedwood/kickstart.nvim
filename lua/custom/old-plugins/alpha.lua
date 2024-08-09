@@ -1,8 +1,8 @@
 return {
   'goolord/alpha-nvim',
   config = function()
-    local alpha = require('alpha')
-    local dashboard = require('alpha.themes.dashboard')
+    local alpha = require 'alpha'
+    local dashboard = require 'alpha.themes.dashboard'
     dashboard.section.header.val = {
       [[                               __                ]],
       [[  ___     ___    ___   __  __ /\_\    ___ ___    ]],
@@ -12,14 +12,14 @@ return {
       [[ \/_/\/_/\/____/\/___/  \/__/    \/_/\/_/\/_/\/_/]],
     }
     dashboard.section.buttons.val = {
-      dashboard.button("sf", "󰈞  Search files", ":Telescope find_files<CR>"),
-      dashboard.button("-", "󰙅  Open explorer", ":lua MiniFiles.open()<CR>"),
-      dashboard.button("g", "󰊢  Neogit status", ":Lazy load neogit<CR>:Neogit<CR>"),
-      dashboard.button("e", "  New file", ":ene<CR>"),
-      dashboard.button("q", "󰅚  Quit NVIM", ":qa<CR>"),
+      dashboard.button('sf', '󰈞  Search files', ':Telescope find_files<CR>'),
+      dashboard.button('-', '󰙅  Open explorer', ':lua MiniFiles.open()<CR>'),
+      dashboard.button('g', '󰊢  Neogit status', ':Lazy load neogit<CR>:Neogit<CR>'),
+      dashboard.button('e', '  New file', ':ene<CR>'),
+      dashboard.button('q', '󰅚  Quit NVIM', ':qa<CR>'),
     }
-    local handle = io.popen('fortune')
-    local fortune = handle:read("*a")
+    local handle = io.popen 'fortune'
+    local fortune = handle:read '*a'
     handle:close()
     dashboard.section.footer.val = fortune
 
@@ -29,4 +29,4 @@ return {
 
     alpha.setup(dashboard.config)
   end,
-};
+}

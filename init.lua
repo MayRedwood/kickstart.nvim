@@ -249,7 +249,7 @@ require('lazy').setup({
   -- after the plugin has been loaded:
   --  config = function() ... end
 
-  {                     -- Useful plugin to show you pending keybinds.
+  { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     opts = {
@@ -430,7 +430,7 @@ require('lazy').setup({
       },
     },
   },
-  { 'Bilal2453/luvit-meta',     lazy = true },
+  { 'Bilal2453/luvit-meta', lazy = true },
   {
     -- Main LSP Configuration
     'neovim/nvim-lspconfig',
@@ -830,7 +830,7 @@ require('lazy').setup({
           fields = { 'kind', 'abbr', 'menu' },
           expandable_indicator = true,
           format = function(entry, vim_item)
-            local kind = require('lspkind').cmp_format { mode = 'symbol_text', maxwidth = 50 } (entry, vim_item)
+            local kind = require('lspkind').cmp_format { mode = 'symbol_text', maxwidth = 50 }(entry, vim_item)
             local strings = vim.split(kind.kind, '%s', { trimempty = true })
             kind.kind = ' ' .. (strings[1] or '') .. ' '
             kind.menu = '    (' .. (strings[2] or '') .. ')'
@@ -860,10 +860,10 @@ require('lazy').setup({
     end,
   },
 
-  { "catppuccin/nvim",          name = "catppuccin", priority = 1000 },
+  { 'catppuccin/nvim', name = 'catppuccin', priority = 1000 },
 
   -- Highlight todo, notes, etc in comments
-  { 'folke/todo-comments.nvim', event = 'VimEnter',  dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
+  { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
@@ -950,12 +950,12 @@ require('lazy').setup({
       starter.setup {
         evaluate_single = true,
         items = {
-          { name = 'File picker', action = 'Telescope find_files',                section = 'Telescope' },
-          { name = 'Old files',   action = 'Telescope oldfiles',                  section = 'Telescope' },
-          { name = 'Help tags',   action = 'Telescope help_tags',                 section = 'Telescope' },
-          { name = 'Lazy',        action = 'Lazy',                                section = 'Plugins' },
-          { name = 'Neogit',      action = 'execute "Lazy load neogit" | Neogit', section = 'Plugins' },
-          { name = 'Mini.files',  action = 'lua MiniFiles.open()',                section = 'Plugins' },
+          { name = 'Search files', action = 'Telescope find_files', section = 'Telescope' },
+          { name = 'Old files', action = 'Telescope oldfiles', section = 'Telescope' },
+          { name = 'Help tags', action = 'Telescope help_tags', section = 'Telescope' },
+          { name = 'Lazy', action = 'Lazy', section = 'Plugins' },
+          { name = 'Neogit', action = 'execute "Lazy load neogit" | Neogit', section = 'Plugins' },
+          { name = 'Mini.files', action = 'lua MiniFiles.open()', section = 'Plugins' },
           -- Use this if you set up 'mini.sessions'
           -- starter.sections.sessions(5, true)
           starter.sections.builtin_actions(),
