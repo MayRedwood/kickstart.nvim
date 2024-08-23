@@ -1000,7 +1000,7 @@ require('lazy').setup({
       -- hide_numbers = false,
       -- persist_mode = false,
       size = 18,
-      -- direction = 'float',
+      direction = 'float',
     },
   },
 
