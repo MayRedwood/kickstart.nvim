@@ -99,6 +99,12 @@ vim.g.have_nerd_font = true
 -- Open all folds by default
 vim.opt.foldlevel = 99
 
+-- Default tab length
+vim.opt.tabstop = 4
+
+-- Set default font for GUI apps
+vim.o.guifont = 'CaskaydiaCove Nerd Font:h12'
+
 -- [[ Setting options ]]
 -- See `:help vim.opt`
 -- NOTE: You can change these options as you wish!
@@ -318,6 +324,7 @@ require('lazy').setup({
     branch = '0.1.x',
     dependencies = {
       'nvim-lua/plenary.nvim',
+      'debugloop/telescope-undo.nvim',
       { -- If encountering errors, see telescope-fzf-native README for installation instructions
         'nvim-telescope/telescope-fzf-native.nvim',
 
@@ -362,15 +369,22 @@ require('lazy').setup({
         -- You can put your default mappings / updates / etc. in here
         --  All the info you're looking for is in `:help telescope.setup()`
         --
-        -- defaults = {
-        --   mappings = {
-        --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-        --   },
-        -- },
+        defaults = {
+          -- mappings = {
+          --   i = { ['<c-enter>'] = 'to_fuzzy_refine' },
+          -- },
+          layout_config = {
+            prompt_position = 'top',
+          },
+          sorting_strategy = 'ascending',
+        },
         -- pickers = {}
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
+          },
+          undo = {
+            -- telescope-undo.nvim config, see below
           },
         },
       }
@@ -378,16 +392,19 @@ require('lazy').setup({
       -- Enable Telescope extensions if they are installed
       pcall(require('telescope').load_extension, 'fzf')
       pcall(require('telescope').load_extension, 'ui-select')
+      pcall(require('telescope').load_extension, 'undo')
 
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
       vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
+      vim.keymap.set('n', '<leader>su', '<cmd>Telescope undo<cr>', { desc = '[S]earch [U]ndo Tree' })
       vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
       vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
       vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
       vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
+      vim.keymap.set('n', '<leader>sl', builtin.lsp_document_symbols, { desc = '[S]earch [L]SP Symbols' })
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
@@ -645,6 +662,7 @@ require('lazy').setup({
 
       -- Declare OS-provided language servers here!
       require('lspconfig').nixd.setup {}
+      require('lspconfig').gdscript.setup {}
       require('lspconfig').lua_ls.setup {
         -- cmd = {...},
         -- filetypes = { ...},
@@ -755,7 +773,8 @@ require('lazy').setup({
             luasnip.lsp_expand(args.body)
           end,
         },
-        completion = { completeopt = 'menu,menuone,noinsert' },
+        -- We need noselect because of a gdscript bug
+        completion = { completeopt = 'menu,menuone,noselect' },
 
         -- For an understanding of why these mappings were
         -- chosen, you will need to read `:help ins-completion`
@@ -933,9 +952,22 @@ require('lazy').setup({
         end
       end
       vim.keymap.set({ 'n', 'v' }, '-', minifiles_toggle, { desc = 'Open files' })
+      -- Mapping to let mini explorer set cwd
+      local files_set_cwd = function(path)
+        -- Works only if cursor is on the valid file system entry
+        local cur_entry_path = MiniFiles.get_fs_entry().path
+        local cur_directory = vim.fs.dirname(cur_entry_path)
+        vim.fn.chdir(cur_directory)
+      end
+      vim.api.nvim_create_autocmd('User', {
+        pattern = 'MiniFilesBufferCreate',
+        callback = function(args)
+          vim.keymap.set('n', '~', files_set_cwd, { buffer = args.data.buf_id })
+        end,
+      })
 
       --  TODO: Individually configure each of these
-      require('mini.animate').setup()
+      -- require('mini.animate').setup()
       require('mini.align').setup()
       require('mini.bracketed').setup()
       require('mini.bufremove').setup()
@@ -1005,7 +1037,7 @@ require('lazy').setup({
       -- hide_numbers = false,
       -- persist_mode = false,
       size = 18,
-      -- direction = 'tab',
+      -- direction = 'float',
     },
   },
 
