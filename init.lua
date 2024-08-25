@@ -103,7 +103,23 @@ vim.opt.foldlevel = 99
 vim.opt.tabstop = 4
 
 -- Set default font for GUI apps
-vim.o.guifont = 'CaskaydiaCove Nerd Font:h12'
+vim.o.guifont = 'CaskaydiaCove Nerd Font:h12:#h-none'
+
+-- Neovide settings
+if vim.g.neovide then
+  vim.api.nvim_set_keymap('v', '<sc-c>', '"+y', { noremap = true })
+  vim.api.nvim_set_keymap('n', '<sc-v>', 'l"+P', { noremap = true })
+  vim.api.nvim_set_keymap('v', '<sc-v>', '"+P', { noremap = true })
+  vim.api.nvim_set_keymap('c', '<sc-v>', '<C-o>l<C-o>"+<C-o>P<C-o>l', { noremap = true })
+  vim.api.nvim_set_keymap('i', '<sc-v>', '<ESC>l"+Pli', { noremap = true })
+  vim.api.nvim_set_keymap('t', '<sc-v>', '<C-\\><C-n>"+Pi', { noremap = true })
+  vim.g.neovide_cursor_antialiasing = true
+  vim.g.neovide_cursor_trail_size = 0.4
+  -- vim.g.neovide_text_gamma = 0.0
+  -- vim.g.neovide_text_contrast = 0.0
+else
+  vim.opt.winblend = 0
+end
 
 -- [[ Setting options ]]
 -- See `:help vim.opt`
@@ -115,7 +131,6 @@ vim.o.guifont = 'CaskaydiaCove Nerd Font:h12'
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
 vim.opt.relativenumber = true
-vim.opt.winblend = 0
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = ''
@@ -951,7 +966,13 @@ require('lazy').setup({
           MiniFiles.open()
         end
       end
+      local minifiles_toggle_current_buffer = function()
+        if not MiniFiles.close() then
+          MiniFiles.open(vim.api.nvim_buf_get_name(0))
+        end
+      end
       vim.keymap.set({ 'n', 'v' }, '-', minifiles_toggle, { desc = 'Open files' })
+      vim.keymap.set({ 'n', 'v' }, 'ç', minifiles_toggle_current_buffer, { desc = 'Open current file in explorer' })
       -- Mapping to let mini explorer set cwd
       local files_set_cwd = function(path)
         -- Works only if cursor is on the valid file system entry
@@ -967,8 +988,8 @@ require('lazy').setup({
       })
 
       --  TODO: Individually configure each of these
-      -- require('mini.animate').setup()
       require('mini.align').setup()
+      -- require('mini.animate').setup()
       require('mini.bracketed').setup()
       require('mini.bufremove').setup()
       -- require('mini.indentscope').setup()
