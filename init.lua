@@ -159,6 +159,8 @@ vim.opt.inccommand = 'split'
 vim.opt.scrolloff = 10
 vim.opt.sidescrolloff = 10
 
+vim.opt.sessionoptions = 'curdir'
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -363,9 +365,7 @@ require('lazy').setup({
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
           },
-          undo = {
-            -- telescope-undo.nvim config, see below
-          },
+          undo = {},
         },
       }
 
@@ -956,6 +956,9 @@ require('lazy').setup({
       require('mini.splitjoin').setup()
       require('mini.comment').setup()
       require('mini.pairs').setup()
+      require('mini.sessions').setup {
+        autowrite = false,
+      }
 
       local starter = require 'mini.starter'
       starter.setup {
@@ -967,13 +970,13 @@ require('lazy').setup({
           { name = 'Lazy', action = 'Lazy', section = 'Plugins' },
           { name = 'Neogit', action = 'execute "Lazy load neogit" | Neogit', section = 'Plugins' },
           { name = 'Mini.files', action = 'lua MiniFiles.open()', section = 'Plugins' },
-          -- Use this if you set up 'mini.sessions'
-          -- starter.sections.sessions(5, true)
           starter.sections.builtin_actions(),
+          -- Use this if you set up 'mini.sessions'
+          starter.sections.sessions(5, false),
         },
         content_hooks = {
           starter.gen_hook.adding_bullet '* ',
-          -- starter.gen_hook.indexing('all', { 'Builtin actions' }),
+          starter.gen_hook.indexing('all', { 'Plugins', 'Telescope', 'Builtin actions' }),
           -- starter.gen_hook.padding(3, 2),
           starter.gen_hook.aligning('center', 'center'),
         },
