@@ -172,7 +172,7 @@ vim.keymap.set({ 'n', 'v' }, ';', ':', { desc = 'Enter command mode' })
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Exit insert mode on çç
-vim.keymap.set('i', 'çç', '<Esc>')
+vim.keymap.set('i', 'çç', '<Esc>', { desc = 'Exit insert mode' })
 
 -- Unbind the stupid s
 vim.keymap.set('n', 's', '<Nop>')
@@ -216,6 +216,9 @@ if not vim.uv.fs_stat(lazypath) then
   end
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
+
+-- Keymap to open Lazy
+vim.keymap.set({ 'n', 'v' }, '<leader>l', '<cmd>Lazy<cr>', { desc = 'Open lazy.nvim dashboard' })
 
 -- [[ Configure and install plugins ]]
 --
@@ -360,7 +363,18 @@ require('lazy').setup({
           },
           sorting_strategy = 'ascending',
         },
-        -- pickers = {}
+        pickers = {
+          buffers = {
+            mappings = {
+              i = {
+                ['<m-d>'] = 'delete_buffer',
+              },
+              n = {
+                ['<m-d>'] = 'delete_buffer',
+              },
+            },
+          },
+        },
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
@@ -834,6 +848,19 @@ require('lazy').setup({
     end,
   },
 
+  {
+    'sainnhe/everforest',
+    lazy = false,
+    priority = 1000,
+    config = function()
+      -- Optionally configure and load the colorscheme
+      -- directly inside the plugin declaration.
+      vim.g.everforest_background = 'hard'
+      vim.g.everforest_enable_italic = true
+      -- vim.cmd [[colorscheme everforest]]
+    end,
+  },
+
   { -- You can easily change to a different colorscheme.
     -- Change the name of the colorscheme plugin below, and then
     -- change the command in the config to whatever the name of that colorscheme is.
@@ -841,14 +868,57 @@ require('lazy').setup({
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
     'folke/tokyonight.nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
-    init = function()
-      -- Load the colorscheme here.
-      -- Like many other themes, this one has different styles, and you could load
-      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-moon'
-
+    opts = {
+      style = 'moon',
+    },
+    config = function(_, opts)
       -- You can configure highlights by doing something like:
       -- vim.cmd.hi 'Comment gui=none'
+      -- local styles = require('tokyonight.colors').styles
+      --
+      -- -- change the colors for your new palette here
+      -- -- stylua: ignore
+      -- ---@type Palette
+      -- local modified_colors = {
+      --   bg = "#272e33",
+      --   bg_dark = "#1e2326", --
+      --   bg_highlight = "#2e383c", --
+      --   blue = "#7fbbb3", --
+      --   blue0 = "#7fbbb3", --CHANGEME
+      --   blue1 = "#7fbbb3", --CHANGEME
+      --   blue2 = "#7fbbb3", --CHANGEME
+      --   blue5 = "#7fbbb3", --CHANGEME
+      --   blue6 = "#7fbbb3", --CHANGEME
+      --   blue7 = "#38db55", --
+      --   comment = "#859289", --
+      --   cyan = "#83c092", --
+      --   dark3 = "#495156", --?
+      --   dark5 = "#4f5b58", --?
+      --   fg = "#d3c6aa", --
+      --   fg_dark = "#7a8a78", --
+      --   fg_gutter = "#374145", --?
+      --   green = "#a7c080", --
+      --   green1 = "#83c092", --CHANGEME
+      --   green2 = "#a7c080", --CHANGEME
+      --   magenta = "#d699b6", --
+      --   magenta2 = "#d699b6", --
+      --   orange = "#e69875", --
+      --   purple = "#d699b6", --CHANGEME
+      --   red = "#e67e80", --
+      --   red1 = "#4c3743", --CHANGEME
+      --   teal = "#7fbbb3", --?
+      --   terminal_black = "#414b50", --?
+      --   yellow = "#dbbc7f", --?
+      --   git = { --
+      --     add = "#a7c080",
+      --     change = "#dbbc7f",
+      --     delete = "#e67e80",
+      --   },
+      -- }
+      -- -- save as `custom` style (by extending the `storm` style)
+      -- styles.custom = vim.tbl_extend('force', styles.storm --[[@as Palette]], modified_colors)
+
+      -- require('tokyonight').load(opts) -- load custom style (be sure to have opts.style = 'custom')
     end,
   },
 
@@ -964,19 +1034,21 @@ require('lazy').setup({
       starter.setup {
         evaluate_single = true,
         items = {
-          { name = 'Search files', action = 'Telescope find_files', section = 'Telescope' },
-          { name = 'Old files', action = 'Telescope oldfiles', section = 'Telescope' },
-          { name = 'Help tags', action = 'Telescope help_tags', section = 'Telescope' },
+          { name = 'Forest', action = 'colorscheme everforest', section = 'Colors' },
+          { name = 'Night', action = 'colorscheme tokyonight-moon', section = 'Colors' },
+          starter.sections.sessions(5, false),
+          -- { name = 'Search files', action = 'Telescope find_files', section = 'Telescope' },
           { name = 'Lazy', action = 'Lazy', section = 'Plugins' },
-          { name = 'Neogit', action = 'execute "Lazy load neogit" | Neogit', section = 'Plugins' },
+          -- { name = 'Neogit', action = 'execute "Lazy load neogit" | Neogit', section = 'Plugins' },
           { name = 'Mini.files', action = 'lua MiniFiles.open()', section = 'Plugins' },
+          { name = 'Telescope', action = 'Telescope oldfiles', section = 'Plugins' },
+          -- { name = 'Help tags (Telescope)', action = 'Telescope help_tags', section = 'Plugins' },
           starter.sections.builtin_actions(),
           -- Use this if you set up 'mini.sessions'
-          starter.sections.sessions(5, false),
         },
         content_hooks = {
           starter.gen_hook.adding_bullet '* ',
-          starter.gen_hook.indexing('all', { 'Plugins', 'Telescope', 'Builtin actions' }),
+          starter.gen_hook.indexing('all', { 'Plugins', 'Colors', 'Builtin actions' }),
           -- starter.gen_hook.padding(3, 2),
           starter.gen_hook.aligning('center', 'center'),
         },

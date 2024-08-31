@@ -7,7 +7,7 @@ return {
     'nvim-telescope/telescope.nvim', -- optional
   },
   keys = {
-    { '<leader>g', ':Neogit<CR>', { desc = 'Neogit reveal' } },
+    { '<leader>g', ':Neogit<CR>', { desc = 'Open Neogit dashboard' } },
   },
   config = true,
 }
