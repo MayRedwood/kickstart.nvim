@@ -319,6 +319,8 @@ require('lazy').setup({
       -- Document existing key chains
       spec = {
         { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
+        { '<leader>c', group = '[C]ode' },
+        { '<leader>cl', group = '[C]o[l]orschemes' },
         { '<leader>d', group = '[D]ocument' },
         { '<leader>r', group = '[R]ename' },
         { '<leader>s', group = '[S]earch' },
@@ -429,11 +431,11 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
       vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
       vim.keymap.set('n', '<leader>su', '<cmd>Telescope undo<cr>', { desc = '[S]earch [U]ndo Tree' })
+      -- vim.keymap.set('n', '<leader>sc', builtin.colorscheme, { desc = '[S]earch [C]olorschemes' })
       vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
       vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
       vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
       vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
-      vim.keymap.set('n', '<leader>sl', builtin.lsp_document_symbols, { desc = '[S]earch [L]SP Symbols' })
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
@@ -911,11 +913,11 @@ require('lazy').setup({
     'folke/tokyonight.nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
     opts = {
-      style = 'moon',
+      style = 'custom',
     },
-    config = function(_, opts)
-      -- You can configure highlights by doing something like:
-      -- vim.cmd.hi 'Comment gui=none'
+    config = function()
+      -- -- You can configure highlights by doing something like:
+      -- -- vim.cmd.hi 'Comment gui=none'
       -- local styles = require('tokyonight.colors').styles
       --
       -- -- change the colors for your new palette here
@@ -959,12 +961,15 @@ require('lazy').setup({
       -- }
       -- -- save as `custom` style (by extending the `storm` style)
       -- styles.custom = vim.tbl_extend('force', styles.storm --[[@as Palette]], modified_colors)
-
       -- require('tokyonight').load(opts) -- load custom style (be sure to have opts.style = 'custom')
+
+      vim.cmd.colorscheme 'tokyonight-moon'
+      vim.keymap.set('n', '<leader>cle', '<cmd>colorscheme everforest<cr>', { desc = 'Everforest' })
+      vim.keymap.set('n', '<leader>clt', '<cmd>colorscheme tokyonight-moon<cr>', { desc = 'Tokyo Night Moon' })
     end,
   },
 
-  { 'catppuccin/nvim', name = 'catppuccin', priority = 1000 },
+  -- { 'catppuccin/nvim', name = 'catppuccin', priority = 1000 },
 
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
@@ -1076,8 +1081,6 @@ require('lazy').setup({
       starter.setup {
         evaluate_single = true,
         items = {
-          { name = 'Forest', action = 'colorscheme everforest', section = 'Colors' },
-          { name = 'Night', action = 'colorscheme tokyonight-moon', section = 'Colors' },
           starter.sections.sessions(5, false),
           -- { name = 'Search files', action = 'Telescope find_files', section = 'Telescope' },
           { name = 'Lazy', action = 'Lazy', section = 'Plugins' },
