@@ -35,7 +35,11 @@ return {
     sections = {
       lualine_a = { 'mode' },
       lualine_b = { 'branch', 'diff', 'diagnostics' },
-      lualine_c = { 'filename' },
+      lualine_c = {
+        function()
+          return vim.fn.getcwd()
+        end,
+      },
       lualine_x = { 'encoding', 'fileformat', 'filetype' },
       lualine_y = { 'progress' },
       lualine_z = { 'location' },
@@ -50,26 +54,28 @@ return {
     },
     tabline = {
       lualine_c = {
-        function()
-          return vim.fn.getcwd()
-        end,
+        {
+          'navic',
+          color_correction = 'dynamic',
+          -- navic_opts = { highlight = true },
+        },
       },
       lualine_y = { 'windows' },
       lualine_z = { 'tabs' },
     },
-    winbar = {
-      lualine_c = {
-        {
-          function()
-            local navic = require 'nvim-navic'
-            return '> ' .. navic.get_location()
-          end,
-          cond = function()
-            return require('nvim-navic').is_available()
-          end,
-        },
-      },
-    },
+    -- winbar = {
+    --   lualine_c = {
+    --     {
+    --       function()
+    --         local navic = require 'nvim-navic'
+    --         return '> ' .. navic.get_location()
+    --       end,
+    --       cond = function()
+    --         return require('nvim-navic').is_available()
+    --       end,
+    --     },
+    --   },
+    -- },
     inactive_winbar = {},
     extensions = { 'lazy', 'trouble' },
   },
