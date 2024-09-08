@@ -1,7 +1,9 @@
 vim.opt.conceallevel = 3
+vim.opt.wrap = true
 vim.keymap.set('n', '<C-Space>', '<Plug>(neorg.qol.todo-items.todo.task-cycle)', { buffer = true, desc = '[neorg] Cycle task status' })
 vim.keymap.set('n', '<BS>', '<Plug>(neorg.esupports.hop.hop-link)', { buffer = true, desc = '[neorg] Open link under cursor' })
-vim.keymap.set('n', '<leader>old', '<Plug>(neorg.tempus.insert-date)', { buffer = true, desc = '[neorg] Insert date link' })
+vim.keymap.set('n', '<leader>ojd', '<Plug>(neorg.tempus.insert-date)', { buffer = true, desc = '[neorg] Insert date link' })
+vim.keymap.set('n', '<leader>ojt', '<cmd>Neorg journal today<cr>', { buffer = true, desc = "[neorg] Open today's note" })
 vim.keymap.set('n', '<leader>oli', '<Plug>(neorg.pivot.list.invert)', { buffer = true, desc = '[neorg] Invert items on a list' })
 vim.keymap.set('n', '<leader>olt', '<Plug>(neorg.pivot.list.toggle)', { buffer = true, desc = '[neorg] Toggle list ordering' })
 vim.keymap.set('n', '<leader>oa', '<Plug>(neorg.qol.todo-items.todo.task-ambiguous)', { buffer = true, desc = '[neorg] Mark task as ambiguous' })

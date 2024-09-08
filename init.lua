@@ -102,6 +102,12 @@ vim.opt.foldlevel = 99
 -- Default tab length
 vim.opt.tabstop = 4
 
+-- Disable undofiles
+vim.opt.undofile = false
+
+-- Smooth scrolling
+vim.o.smoothscroll = true
+
 -- Set default font for GUI apps
 vim.o.guifont = 'CaskaydiaCove Nerd Font:h12:#h-none'
 
@@ -404,10 +410,10 @@ require('lazy').setup({
           buffers = {
             mappings = {
               i = {
-                ['<m-d>'] = 'delete_buffer',
+                ['<c-c>'] = 'delete_buffer',
               },
               n = {
-                ['<m-d>'] = 'delete_buffer',
+                ['<c-c>'] = 'delete_buffer',
               },
             },
           },
@@ -1061,6 +1067,11 @@ require('lazy').setup({
           vim.keymap.set('n', '~', files_set_cwd, { buffer = args.data.buf_id })
         end,
       })
+
+      require('mini.bufremove').setup()
+      vim.api.nvim_create_user_command('Bd', 'lua MiniBufremove.delete()', {})
+      vim.keymap.set('n', '];', MiniBufremove.delete, { desc = 'delete current buffer' })
+      vim.keymap.set('n', '[;', MiniBufremove.delete, { desc = 'delete current buffer' })
 
       --  TODO: Individually configure each of these
       require('mini.align').setup()
