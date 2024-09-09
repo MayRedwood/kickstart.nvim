@@ -1112,6 +1112,9 @@ require('lazy').setup({
       }
     end,
   },
+
+  { 'rcarriga/nvim-notify', opts = { stages = 'no_animation' } },
+
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
