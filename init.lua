@@ -919,7 +919,8 @@ require('lazy').setup({
     'folke/tokyonight.nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
     opts = {
-      style = 'custom',
+      style = 'moon',
+      transparent = 'true',
     },
     config = function()
       -- -- You can configure highlights by doing something like:
@@ -1155,16 +1156,11 @@ require('lazy').setup({
   },
 
   {
-    'akinsho/toggleterm.nvim',
-    version = '*',
-    opts = {
-      open_mapping = '<C-\\>',
-      -- shade_terminals = false,
-      -- hide_numbers = false,
-      -- persist_mode = false,
-      size = 18,
-      direction = 'float',
-    },
+    '3rd/image.nvim',
+    -- config = function()
+    --   -- ...
+    -- end,
+    opts = {},
   },
 
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
