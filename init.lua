@@ -183,6 +183,9 @@ vim.keymap.set('i', 'çç', '<Esc>', { desc = 'Exit insert mode' })
 -- Unbind the stupid s
 vim.keymap.set('n', 's', '<Nop>')
 
+-- Bind redo to U
+vim.keymap.set('n', 'U', '<C-R>', { desc = 'Redo last action' })
+
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
@@ -325,8 +328,8 @@ require('lazy').setup({
       -- Document existing key chains
       spec = {
         { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
-        { '<leader>c', group = '[C]ode' },
-        { '<leader>cl', group = '[C]o[l]orschemes' },
+        -- { '<leader>c', group = '[C]ode' },
+        -- { '<leader>cl', group = '[C]o[l]orschemes' },
         { '<leader>d', group = '[D]ocument' },
         { '<leader>r', group = '[R]ename' },
         { '<leader>s', group = '[S]earch' },
@@ -898,18 +901,18 @@ require('lazy').setup({
     end,
   },
 
-  {
-    'sainnhe/everforest',
-    lazy = false,
-    priority = 1000,
-    config = function()
-      -- Optionally configure and load the colorscheme
-      -- directly inside the plugin declaration.
-      vim.g.everforest_background = 'hard'
-      vim.g.everforest_enable_italic = true
-      -- vim.cmd [[colorscheme everforest]]
-    end,
-  },
+  -- {
+  --   'sainnhe/everforest',
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     -- Optionally configure and load the colorscheme
+  --     -- directly inside the plugin declaration.
+  --     vim.g.everforest_background = 'hard'
+  --     vim.g.everforest_enable_italic = true
+  --     -- vim.cmd [[colorscheme everforest]]
+  --   end,
+  -- },
 
   { -- You can easily change to a different colorscheme.
     -- Change the name of the colorscheme plugin below, and then
@@ -971,8 +974,8 @@ require('lazy').setup({
       -- require('tokyonight').load(opts) -- load custom style (be sure to have opts.style = 'custom')
 
       vim.cmd.colorscheme 'tokyonight-moon'
-      vim.keymap.set('n', '<leader>cle', '<cmd>colorscheme everforest<cr>', { desc = 'Everforest' })
-      vim.keymap.set('n', '<leader>clt', '<cmd>colorscheme tokyonight-moon<cr>', { desc = 'Tokyo Night Moon' })
+      -- vim.keymap.set('n', '<leader>cle', '<cmd>colorscheme everforest<cr>', { desc = 'Everforest' })
+      -- vim.keymap.set('n', '<leader>clt', '<cmd>colorscheme tokyonight-moon<cr>', { desc = 'Tokyo Night Moon' })
     end,
   },
 
@@ -1011,7 +1014,11 @@ require('lazy').setup({
       require('mini.surround').setup()
 
       -- Generally better than nvim-dev-webicons
-      require('mini.icons').setup()
+      require('mini.icons').setup {
+        extension = {
+          norg = { glyph = '', hl = 'MiniIconsBlue' },
+        },
+      }
       MiniIcons.mock_nvim_web_devicons()
 
       -- -- Simple and easy statusline.
@@ -1122,7 +1129,7 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'norg' },
+      ensure_installed = { 'regex', 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'norg' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
@@ -1155,13 +1162,13 @@ require('lazy').setup({
     },
   },
 
-  {
-    '3rd/image.nvim',
-    -- config = function()
-    --   -- ...
-    -- end,
-    opts = {},
-  },
+  -- {
+  --   '3rd/image.nvim',
+  --   -- config = function()
+  --   --   -- ...
+  --   -- end,
+  --   opts = {},
+  -- },
 
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
