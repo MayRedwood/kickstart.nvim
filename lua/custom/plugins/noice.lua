@@ -40,7 +40,7 @@ return {
         },
       },
     }
-    vim.keymap.set('n', '°', '<cmd>Noice dismiss<cr>', { desc = 'Dismiss notifications' })
+    vim.keymap.set('n', ',,', '<cmd>Noice dismiss<cr>', { desc = 'Dismiss notifications' })
   end,
   dependencies = {
     -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries

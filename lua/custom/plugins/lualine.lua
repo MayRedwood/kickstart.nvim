@@ -76,6 +76,25 @@ return {
       lualine_z = {},
     },
     tabline = {
+      lualine_a = {
+        function()
+          return require('molten.status').kernels()
+        end,
+      },
+      lualine_b = {
+        function()
+          local venv = os.getenv 'VIRTUAL_ENV'
+          local fhs = os.getenv 'FHS'
+          local t = {}
+          if venv ~= nil then
+            t[#t + 1] = 'venv'
+          end
+          if fhs ~= nil then
+            t[#t + 1] = 'fhs'
+          end
+          return table.concat(t, '/')
+        end,
+      },
       lualine_c = {
         {
           'navic',

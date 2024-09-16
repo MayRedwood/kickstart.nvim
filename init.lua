@@ -336,6 +336,9 @@ require('lazy').setup({
         { '<leader>w', group = '[W]orkspace' },
         { '<leader>t', group = '[T]oggle' },
         { '<leader>o', group = '[O]rg mode' },
+        { '<leader>m', group = '[M]olten' },
+        { '<leader>mo', group = '[M]olten [O]pen' },
+        { '<leader>mi', group = '[M]olten [I]nit' },
         { '<leader>x', group = 'Trouble' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
       },
@@ -702,6 +705,7 @@ require('lazy').setup({
 
       -- Declare OS-provided language servers here!
       require('lspconfig').nixd.setup {}
+      require('lspconfig').pylsp.setup {}
       require('lspconfig').gdscript.setup {}
       require('lspconfig').lua_ls.setup {
         -- cmd = {...},
@@ -1092,27 +1096,32 @@ require('lazy').setup({
       require('mini.splitjoin').setup()
       require('mini.comment').setup()
       require('mini.pairs').setup()
-      require('mini.sessions').setup {
-        autowrite = false,
-      }
+      -- require('mini.sessions').setup {
+      --   autowrite = false,
+      -- }
 
       local starter = require 'mini.starter'
       starter.setup {
         evaluate_single = true,
         items = {
-          starter.sections.sessions(5, false),
-          -- { name = 'Search files', action = 'Telescope find_files', section = 'Telescope' },
-          { name = 'Lazy', action = 'Lazy', section = 'Plugins' },
-          -- { name = 'Neogit', action = 'execute "Lazy load neogit" | Neogit', section = 'Plugins' },
-          { name = 'Mini.files', action = 'lua MiniFiles.open()', section = 'Plugins' },
+          -- starter.sections.sessions(5, false),
+          { name = 'Search files', action = 'Telescope find_files', section = 'Directory' },
+          { name = 'Neogit status', action = 'execute "Lazy load neogit" | Neogit', section = 'Directory' },
+          { name = '- mini.files', action = 'lua MiniFiles.open()', section = 'Directory' },
           { name = 'Telescope', action = 'Telescope oldfiles', section = 'Plugins' },
+          { name = 'Lazy', action = 'Lazy', section = 'Plugins' },
           -- { name = 'Help tags (Telescope)', action = 'Telescope help_tags', section = 'Plugins' },
+          -- Fake sessions
+          { name = 'config.nvim', action = 'cd ~/.config/nvim', section = 'Sessions ' },
+          { name = 'nova', action = 'cd ~/nova', section = 'Sessions ' },
+          { name = 'org', action = 'cd ~/Documents/notes', section = 'Sessions ' },
+          { name = 'wyfc', action = 'cd ~/Documents/.wyfc', section = 'Sessions ' },
           starter.sections.builtin_actions(),
           -- Use this if you set up 'mini.sessions'
         },
         content_hooks = {
           starter.gen_hook.adding_bullet '* ',
-          starter.gen_hook.indexing('all', { 'Plugins', 'Colors', 'Builtin actions' }),
+          starter.gen_hook.indexing('all', { 'Plugins', 'Directory', 'Builtin actions' }),
           -- starter.gen_hook.padding(3, 2),
           starter.gen_hook.aligning('center', 'center'),
         },
@@ -1148,6 +1157,21 @@ require('lazy').setup({
     --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
     --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
   },
+
+  -- {
+  --   'linux-cultist/venv-selector.nvim',
+  --   dependencies = {
+  --     'neovim/nvim-lspconfig',
+  --   },
+  --   lazy = false,
+  --   branch = 'regexp', -- This is the regexp branch, use this for the new version
+  --   config = function()
+  --     require('venv-selector').setup()
+  --   end,
+  --   keys = {
+  --     { ',v', '<cmd>VenvSelect<cr>' },
+  --   },
+  -- },
 
   {
     'akinsho/toggleterm.nvim',
