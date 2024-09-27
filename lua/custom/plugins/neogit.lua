@@ -9,5 +9,11 @@ return {
   keys = {
     { '<leader>g', ':Neogit<CR>', { desc = 'Open Neogit dashboard' } },
   },
-  config = true,
+  opts = {
+    -- mappings = {
+    --   status = {
+    --     ['q'] = 'Toggle',
+    --   },
+    -- },
+  },
 }

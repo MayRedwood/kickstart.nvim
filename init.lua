@@ -105,6 +105,9 @@ vim.opt.tabstop = 4
 -- Disable undofiles
 vim.opt.undofile = false
 
+-- Enable softwrap by default
+vim.opt.wrap = true
+
 -- Smooth scrolling
 vim.o.smoothscroll = true
 
@@ -881,6 +884,7 @@ require('lazy').setup({
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
           { name = 'path' },
+          { name = 'neorg' },
         },
         window = {
           completion = {
@@ -980,6 +984,16 @@ require('lazy').setup({
       vim.cmd.colorscheme 'tokyonight-moon'
       -- vim.keymap.set('n', '<leader>cle', '<cmd>colorscheme everforest<cr>', { desc = 'Everforest' })
       -- vim.keymap.set('n', '<leader>clt', '<cmd>colorscheme tokyonight-moon<cr>', { desc = 'Tokyo Night Moon' })
+    end,
+  },
+
+  {
+    'xiyaowong/transparent.nvim',
+    lazy = false,
+    config = function()
+      local transparent = require 'transparent'
+      transparent.setup {}
+      require('transparent').clear_prefix 'NeoTree'
     end,
   },
 
@@ -1114,8 +1128,8 @@ require('lazy').setup({
           -- Fake sessions
           { name = 'config.nvim', action = 'cd ~/.config/nvim', section = 'Sessions ' },
           { name = 'nova', action = 'cd ~/nova', section = 'Sessions ' },
-          { name = 'org', action = 'cd ~/Documents/notes', section = 'Sessions ' },
-          { name = 'wyfc', action = 'cd ~/Documents/.wyfc', section = 'Sessions ' },
+          { name = 'org', action = 'cd ~/Documents/notes | Neorg workspace notes', section = 'Sessions ' },
+          { name = 'wyfc', action = 'cd ~/Documents/.wyfc | Neorg workspace wyfc', section = 'Sessions ' },
           starter.sections.builtin_actions(),
           -- Use this if you set up 'mini.sessions'
         },
@@ -1138,7 +1152,21 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'regex', 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'norg' },
+      ensure_installed = {
+        'regex',
+        'bash',
+        'c',
+        'diff',
+        'html',
+        'lua',
+        'luadoc',
+        'markdown',
+        'markdown_inline',
+        'query',
+        'vim',
+        'vimdoc',
+        'norg',
+      },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
@@ -1158,20 +1186,47 @@ require('lazy').setup({
     --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
   },
 
-  -- {
-  --   'linux-cultist/venv-selector.nvim',
-  --   dependencies = {
-  --     'neovim/nvim-lspconfig',
-  --   },
-  --   lazy = false,
-  --   branch = 'regexp', -- This is the regexp branch, use this for the new version
-  --   config = function()
-  --     require('venv-selector').setup()
-  --   end,
-  --   keys = {
-  --     { ',v', '<cmd>VenvSelect<cr>' },
-  --   },
-  -- },
+  {
+    'linux-cultist/venv-selector.nvim',
+    dependencies = {
+      'neovim/nvim-lspconfig',
+    },
+    lazy = false,
+    branch = 'regexp', -- This is the regexp branch, use this for the new version
+    config = function()
+      require('venv-selector').setup()
+    end,
+    keys = {
+      { ',v', '<cmd>VenvSelect<cr>' },
+    },
+  },
+
+  {
+    'shortcuts/no-neck-pain.nvim',
+    lazy = false,
+    opts = {
+      width = 128,
+      debug = true,
+      autocmds = {
+        -- enableOnVimEnter = true,
+        -- enableOnTabEnter = true,
+        reloadOnColorSchemeChange = true,
+      },
+      buffers = {
+        right = {
+          enabled = false,
+        },
+        scratchPad = {
+          enabled = true,
+          pathToFile = '~/Documents/np.norg',
+        },
+      },
+      mappings = {
+        -- enabled = true,
+        -- toggle = '|',
+      },
+    },
+  },
 
   {
     'akinsho/toggleterm.nvim',
@@ -1207,7 +1262,7 @@ require('lazy').setup({
   -- require 'kickstart.plugins.indent_line',
   require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
-  -- require 'kickstart.plugins.neo-tree',
+  require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`

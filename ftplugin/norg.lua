@@ -1,5 +1,4 @@
 vim.opt.conceallevel = 3
-vim.opt.wrap = true
 vim.keymap.set('n', '<C-Space>', '<Plug>(neorg.qol.todo-items.todo.task-cycle)', { buffer = true, desc = '[neorg] Cycle task status' })
 vim.keymap.set('n', '<BS>', '<Plug>(neorg.esupports.hop.hop-link)', { buffer = true, desc = '[neorg] Open link under cursor' })
 vim.keymap.set('n', '<leader>ojd', '<Plug>(neorg.tempus.insert-date)', { buffer = true, desc = '[neorg] Insert date link' })

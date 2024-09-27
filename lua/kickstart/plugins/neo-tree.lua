@@ -6,14 +6,17 @@ return {
   version = '*',
   dependencies = {
     'nvim-lua/plenary.nvim',
-    'nvim-tree/nvim-web-devicons', -- not strictly required, but recommended
     'MunifTanjim/nui.nvim',
   },
   cmd = 'Neotree',
   keys = {
-    { '|', ':Neotree toggle buffers<CR>', desc = 'NeoTree reveal', silent = true },
+    { '|', ':Neotree toggle buffers action=show<CR>', desc = 'Show buffers sidebar', silent = true },
   },
   opts = {
+    use_default_mappings = false,
+    enable_git_status = false,
+    enable_diagnostics = false,
+    close_if_last_window = true,
     -- filesystem = {
     --   window = {
     --     mappings = {

@@ -13,16 +13,16 @@ return {
       '<cmd>Trouble diagnostics toggle filter.buf=0<cr>',
       desc = 'Buffer Diagnostics (Trouble)',
     },
-    {
-      '<leader>xs',
-      '<cmd>Trouble symbols toggle win.position=left win.size=36<cr>',
-      desc = 'Symbols (Trouble)',
-    },
-    {
-      '<leader>xl',
-      '<cmd>Trouble lsp toggle focus=false win.position=right<cr>',
-      desc = 'LSP Definitions / references / ... (Trouble)',
-    },
+    -- {
+    --   '<leader>xs',
+    --   '<cmd>Trouble symbols toggle<cr>',
+    --   desc = 'Symbols (Trouble)',
+    -- },
+    -- {
+    --   '<leader>xl',
+    --   '<cmd>Trouble lsp toggle focus=false<cr>',
+    --   desc = 'LSP Definitions / references / ... (Trouble)',
+    -- },
     {
       '<leader>xL',
       '<cmd>Trouble loclist toggle<cr>',

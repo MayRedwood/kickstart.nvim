@@ -39,6 +39,7 @@ return {
         function()
           return vim.fn.getcwd()
         end,
+        'filename',
       },
       lualine_x = {
         -- {

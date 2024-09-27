@@ -17,16 +17,26 @@ return {
           config = {
             workspaces = {
               notes = '~/Documents/notes', -- Format: <name_of_workspace> = <path_to_workspace_root>
+              wyfc = '~/Documents/.wyfc',
               -- my_other_notes = '~/work/notes',
             },
+            default_workspace = 'notes',
             index = 'index.norg', -- The name of the main (root) .norg file
           },
         },
+        ['core.dirman.utils'] = {},
         ['core.journal'] = {
           config = {
             workspace = 'notes',
           },
         },
+        ['core.completion'] = {
+          config = {
+            engine = 'nvim-cmp',
+          },
+        },
+        ['core.integrations.nvim-cmp'] = {},
+        ['core.integrations.image'] = {},
       },
     }
   end,
